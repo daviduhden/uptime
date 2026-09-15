@@ -46,11 +46,10 @@ jobs:
         shell: bash
         run: echo "GH_APP_PRIVATE_KEY=" >> "$GITHUB_ENV"
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # zizmor: ignore[artipacked] required for Upptime git push (v7.0.1)
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ steps.app_token.outputs.token || secrets.GH_PAT || github.token }}
-          persist-credentials: false
       - name: Update code
         uses: upptime/updates@edd134de18545d80a4cad1f4114defc47447879a # v1.0.1
         env:
