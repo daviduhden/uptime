@@ -4,17 +4,17 @@
     "url": "https://uhden.dev",
     "icon": "https://icons.duckduckgo.com/ip3/uhden.dev.ico",
     "slug": "uhden-dev",
-    "status": "down",
-    "uptime": "83.72%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "88.30%",
-    "uptimeMonth": "83.72%",
-    "uptimeYear": "83.72%",
-    "time": 417,
-    "timeDay": 332,
-    "timeWeek": 439,
-    "timeMonth": 417,
-    "timeYear": 417,
+    "status": "up",
+    "uptime": "82.67%",
+    "uptimeDay": "62.77%",
+    "uptimeWeek": "82.98%",
+    "uptimeMonth": "82.67%",
+    "uptimeYear": "82.67%",
+    "time": 419,
+    "timeDay": 420,
+    "timeWeek": 445,
+    "timeMonth": 419,
+    "timeYear": 419,
     "dailyMinutesDown": {
       "2026-09-17": 18,
       "2026-09-19": 1141,
@@ -28,7 +28,8 @@
       "2026-10-07": 47,
       "2026-10-08": 106,
       "2026-10-09": 545,
-      "2026-10-11": 528
+      "2026-10-11": 528,
+      "2026-10-14": 536
     }
   },
   {
