@@ -10,16 +10,13 @@ import subprocess
 import sys
 from pathlib import PurePosixPath
 
-
 ROOT_POLICY = "Continuous Agent & Skills Maintenance"
 AGENT_POLICY = "Post-Change Knowledge Synchronization"
 SKILL_POLICY = "Maintenance & Continuous Learning"
 
 
 def git(*args: str, check: bool = True) -> str:
-    result = subprocess.run(
-        ["git", *args], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-    )
+    result = subprocess.run(["git", *args], text=True, capture_output=True, check=False)
     if check and result.returncode:
         raise RuntimeError(result.stderr.strip() or f"git {' '.join(args)} failed")
     return result.stdout
@@ -55,8 +52,11 @@ def changed_paths(base: str, head: str) -> list[tuple[str, str]]:
 
 def show(ref: str, path: str) -> str | None:
     result = subprocess.run(
-        ["git", "show", f"{ref}:{path}"], text=True, stdout=subprocess.PIPE,
+        ["git", "show", f"{ref}:{path}"],
+        text=True,
+        stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
+        check=False,
     )
     return result.stdout if result.returncode == 0 else None
 
@@ -79,24 +79,35 @@ def substantive_knowledge_diff(base: str, head: str, path: str) -> bool:
         if len(normalized.replace(" ", "")) >= 24 and len(normalized.split()) >= 4:
             changed_lines.append(normalized)
     # Heading-only, whitespace-only, and short cosmetic edits are insufficient.
-    return sum(len(line.replace(" ", "")) for line in changed_lines) >= 55 and len(changed_lines) >= 1
+    return (
+        sum(len(line.replace(" ", "")) for line in changed_lines) >= 55
+        and len(changed_lines) >= 1
+    )
 
 
-def extract_frontmatter(text: str, path: str) -> tuple[dict[str, str] | None, str | None]:
-    match = re.match(r"\A---\s*\n(.*?)\n---\s*(?:\n|$)", text, re.S)
+def extract_frontmatter(
+    text: str, path: str
+) -> tuple[dict[str, str] | None, str | None]:
+    match = re.match(r"\A---\s*\n(.*?)\n---\s*(?:\n|$)", text, re.DOTALL)
     if not match:
         return None, f"{path}: missing or malformed YAML frontmatter"
-    ruby = r'''require "yaml"; require "json"; value = YAML.safe_load(STDIN.read, permitted_classes: [], permitted_symbols: [], aliases: false); abort "frontmatter must be a YAML mapping" unless value.is_a?(Hash); puts JSON.generate(value)'''
+    ruby = r"""require "yaml"; require "json"; value = YAML.safe_load(STDIN.read, permitted_classes: [], permitted_symbols: [], aliases: false); abort "frontmatter must be a YAML mapping" unless value.is_a?(Hash); puts JSON.generate(value)"""
     result = subprocess.run(
-        ["ruby", "-e", ruby], input=match.group(1), text=True,
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        ["ruby", "-e", ruby],
+        input=match.group(1),
+        text=True,
+        capture_output=True,
+        check=False,
     )
     if result.returncode:
         return None, f"{path}: invalid YAML frontmatter ({result.stderr.strip()})"
     fields = json.loads(result.stdout)
     for key in ("name", "description"):
         if not isinstance(fields.get(key), str) or not fields[key].strip():
-            return None, f"{path}: frontmatter requires non-empty top-level string {key}"
+            return (
+                None,
+                f"{path}: frontmatter requires non-empty top-level string {key}",
+            )
     return fields, None
 
 
@@ -128,7 +139,9 @@ def markdown_links(path: str, text: str, paths: set[str]) -> list[str]:
             else:
                 normalized.append(part)
         candidate = "/".join(normalized)
-        if candidate not in paths and not any(item.startswith(candidate.rstrip("/") + "/") for item in paths):
+        if candidate not in paths and not any(
+            item.startswith(candidate.rstrip("/") + "/") for item in paths
+        ):
             errors.append(f"{path}: broken relative link {target}")
     return errors
 
@@ -139,13 +152,20 @@ def validate(base: str, head: str) -> list[str]:
     if not changes:
         return ["No repository changes found in the supplied base/head comparison."]
 
-    knowledge_changes = [(status, path) for status, path in changes if is_knowledge(path)]
-    project_changes = [(status, path) for status, path in changes if not is_knowledge(path)]
+    knowledge_changes = [
+        (status, path) for status, path in changes if is_knowledge(path)
+    ]
+    project_changes = [
+        (status, path) for status, path in changes if not is_knowledge(path)
+    ]
     eligible = [
-        path for status, path in knowledge_changes
+        path
+        for status, path in knowledge_changes
         if status != "D" and show(head, path) is not None
     ]
-    substantive = [path for path in eligible if substantive_knowledge_diff(base, head, path)]
+    substantive = [
+        path for path in eligible if substantive_knowledge_diff(base, head, path)
+    ]
     if not substantive:
         errors.append(
             "No substantive agent/skill knowledge update detected. Every repository change "
@@ -171,7 +191,9 @@ def validate(base: str, head: str) -> list[str]:
             else:
                 folder = PurePosixPath(path).parent.name
                 if fields["name"] != folder:
-                    errors.append(f"{path}: skill name '{fields['name']}' must match directory '{folder}'")
+                    errors.append(
+                        f"{path}: skill name '{fields['name']}' must match directory '{folder}'"
+                    )
                 skill_names.add(fields["name"])
         elif path.endswith(".agent.md"):
             _, error = extract_frontmatter(text, path)
@@ -195,7 +217,10 @@ def validate(base: str, head: str) -> list[str]:
             continue
         result = subprocess.run(
             ["ruby", "-e", "require 'yaml'; YAML.safe_load(STDIN.read, aliases: true)"],
-            input=content, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            input=content,
+            text=True,
+            capture_output=True,
+            check=False,
         )
         if result.returncode:
             errors.append(f"{path}: invalid YAML ({result.stderr.strip()})")
@@ -207,18 +232,26 @@ def validate(base: str, head: str) -> list[str]:
                 if name not in skill_names:
                     errors.append(f"{path}: references missing skill '{name}'")
 
-    if not any(error.startswith("No repository changes") for error in errors):
-        if not errors:
-            print(f"Changed files: {len(changes)} ({len(project_changes)} project, {len(knowledge_changes)} knowledge)")
-            print("Substantive knowledge updates: " + ", ".join(substantive))
-            print(f"Validated instruction files: {len(instruction_paths)}")
+    if (
+        not any(error.startswith("No repository changes") for error in errors)
+        and not errors
+    ):
+        print(
+            f"Changed files: {len(changes)} ({len(project_changes)} project, {len(knowledge_changes)} knowledge)"
+        )
+        print("Substantive knowledge updates: " + ", ".join(substantive))
+        print(f"Validated instruction files: {len(instruction_paths)}")
     return errors
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--base", required=True, help="Base Git ref (usually PR base SHA)")
-    parser.add_argument("--head", required=True, help="Head Git ref (usually PR head SHA)")
+    parser.add_argument(
+        "--base", required=True, help="Base Git ref (usually PR base SHA)"
+    )
+    parser.add_argument(
+        "--head", required=True, help="Head Git ref (usually PR head SHA)"
+    )
     args = parser.parse_args()
     try:
         errors = validate(args.base, args.head)

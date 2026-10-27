@@ -16,7 +16,7 @@ Need the working tree/diff and available local tools. Return errors, warnings, c
 ## Procedure
 
 1. Inspect `git status --short` and `git diff --check`; preserve unrelated user changes.
-2. Detect available YAML/frontmatter validators (for example, existing `yamllint` only if installed). Do not install dependencies or invent repository commands. Use available offline tools to parse YAML including `.upptimerc.yml` and skill/agent frontmatter.
+2. Detect available YAML/frontmatter validators (for example, existing `yamllint` only if installed). Do not install dependencies or invent repository commands. Use available offline tools to parse YAML including `.upptimerc.yml` and skill/agent frontmatter. When editing `scripts/check-agent-knowledge.py`, run `ruff check` and `ruff format --check` on it; keep its shebang consistent with executable file mode.
 3. Review site entries for required name/URL or TCP host/port, duplicate names/slugs/normalized endpoints, HTTP/TCP option consistency, and supported option names against official docs for installed version.
 4. Collect `$NAME` references and compare names with explicit `secrets` allowlist and generated workflow mappings. Never inspect secret values; distinguish runtime placeholders from repository secrets.
 5. Check agent files: Copilot agent has YAML frontmatter with `name` and `description`; each skill directory has a `SKILL.md`, valid YAML frontmatter with `name` and `description`, name matching directory, and focused instructions.
