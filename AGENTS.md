@@ -42,12 +42,33 @@ Use the smallest relevant skill set under `.agents/skills/`; combine skills wher
 2. Map each changed area and new reusable finding to the existing agent and skills by responsibility. Read the affected files; do not update unrelated skills just to satisfy the policy.
 3. Update at least one relevant instruction/agent/skill file with meaningful, reusable knowledge whenever repository files change. Update an existing skill when its scope covers the behavior or its procedure, tools, assumptions, examples, routes, or validation have changed. Create a skill only when a repeatable responsibility has no suitable home; keep it focused and add routing to the relevant agent.
 4. Keep the specialized agent's responsibilities and skill routing synchronized with actual skills. Remove stale or duplicate guidance. Do not add timestamps, empty edits, run-specific details, or cosmetic changes as substitutes for operational knowledge.
-5. Validate frontmatter and syntax, skill names against directories, required maintenance headings, relative links and skill references, and the final diff. Run the repository gate with `python3 scripts/check-agent-knowledge.py --base <base-ref> --head <head-ref>` for committed comparisons. The PR workflow runs this check automatically. Do not claim that an unavailable check passed.
+5. Validate frontmatter and syntax, skill names against directories, required maintenance headings, relative links and skill references, and the final diff. Run the repository gate with `python3 scripts/validate-agent-knowledge.py --scope range --base <base-ref> --head <head-ref>` for committed comparisons. The PR workflow runs this check automatically. Do not claim that an unavailable check passed.
 6. If an applicable instruction cannot be updated, record the reason and mark the task incomplete; do not silently waive the requirement.
 
 ### Maintenance headings and self-maintenance
 
 Every specialized agent must have a **Post-Change Knowledge Synchronization** section. Every skill must have a **Maintenance & Continuous Learning** section. These sections require review after the task, relevant knowledge updates, validation, and a final report. When editing this policy, agent, or skills, validate the complete instruction/skill inventory and enforcement mechanism once at the end; no recursive edit loop is required.
+
+### Shared Agent Knowledge Validation Contract
+
+Use `python3 scripts/validate-agent-knowledge.py --scope worktree` for local
+changes and `python3 -m unittest discover -s tests/agent_knowledge_validator -v`
+for its contract tests. The validator requires Python 3.11+ and Git, uses only
+the Python standard library, and publishes contract version `1.0.0`. All
+adopting repositories share the same CLI, AK001-AK006 identifiers, output
+schema, and exit codes (`0` pass, `1` policy failure, `2` execution/configuration
+error). For a pull request, pass both revisions with
+`--scope range --base BASE_REF --head HEAD_REF`; compare from their merge base.
+
+Read [Agent Knowledge Validation Contract](docs/agent-knowledge-validation.md)
+for the complete rules, JSON schema, optional repository configuration,
+warning semantics, and extension process. AK004 and AK006 can require human
+review; their warnings do not prove or disprove semantic correctness. Keep the
+canonical script and black-box unittest suite byte-identical across adopting
+repositories. Repository-specific requirements belong in the documented TOML
+configuration or a stable `AKX...` extension, never in a private fork of the
+shared rules. The GitHub PR workflow runs the same tests and range command;
+it does not edit files or require secrets.
 
 ### Mandatory Definition of Done
 

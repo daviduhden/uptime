@@ -1,0 +1,3 @@
+[validator]
+contract_version = "1.0.0"
+skill_reference_prefixes = ["upptime-"]
