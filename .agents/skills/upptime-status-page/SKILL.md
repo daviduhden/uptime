@@ -37,3 +37,7 @@ Configuration option is supported, domain/base path agree with hosting, referenc
 ## Example
 
 To add a theme, place a reviewed stylesheet in `assets/` and point `status-website.themeUrl` at its published URL only after confirming this version's asset routing; verify path behavior for `status.uhden.dev` before publication.
+
+## Maintenance & Continuous Learning
+
+After using this skill to change page configuration, assets, or publication procedures, review it against the resulting setup. Update supported options, domain/base path assumptions, asset routes, tools, examples, and validation when they change. Add reusable findings, correct inaccurate guidance, and omit one-off deployment details. Validate frontmatter, relative references, and the repository knowledge gate; report synchronization status.

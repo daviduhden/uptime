@@ -16,7 +16,7 @@ Need intended target/revision if known and whether update should be planned or a
 ## Procedure
 
 1. Identify installed revision from workflow headers/action pins, repository metadata, and `.templaterc.json`; distinguish template version from monitor action version. Here headers currently show Upptime v1.44.0, monitor action v1.44.1, and updates action v1.0.1.
-2. Inspect template scope (`.templaterc.json` currently `.github/**/*`), source configuration, local customizations, and worktree state. Preserve uncommitted work.
+2. Inspect template scope (`.templaterc.json` currently `.github/**/*`), source configuration, local customizations, and worktree state. This repository has a custom PR gate at `.github/workflows/agent-knowledge.yml`; verify actual synchronization behavior for custom paths rather than assuming how the glob treats files absent upstream. Preserve uncommitted work.
 3. Consult official release/template notes or compare against the official upstream for the requested target. Use primary official sources; do not assume all upstream files exist locally.
 4. Classify changes: generated workflow/template files, maintained source config, custom assets/docs, runtime-generated history/API/graphs/README status. Identify overwritten files and semantic changes to options, token flow, permissions, schedules, runtime, or Pages.
 5. Prepare a minimal update plan with pre-update commit/revision, file-by-file conflict handling, safe static validation, post-update observability, and rollback via reverting the update commit. Keep generated data untouched unless the upgrade procedure explicitly regenerates it.
@@ -37,3 +37,7 @@ Versions are evidenced, upstream claims are linked or clearly scoped, generated/
 ## Example
 
 Before accepting a workflow update, compare its version header and pinned action SHA with the target official template, inspect changes to `permissions` and token fallback, confirm `.upptimerc.yml` remains compatible, then run static validation. Do not invoke `Updates CI` to validate a draft.
+
+## Maintenance & Continuous Learning
+
+After using this skill to change template-managed files or upgrade procedures, review its version and ownership claims against the resulting repository. Update source/generated-file boundaries, sync scope, conflict handling, rollback, tools, examples, and validation when they change. Incorporate reusable compatibility findings, correct stale guidance, and leave out one-off upgrade details. Validate references, frontmatter, and the repository knowledge gate; report synchronization status.

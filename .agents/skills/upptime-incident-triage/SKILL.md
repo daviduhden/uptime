@@ -42,3 +42,7 @@ Redact tokens, authorization headers, private URLs, and user data from copied lo
 ## Example
 
 “The latest recorded check for slug `uhden-dev` reports HTTP 200 at [timestamp]; that supports availability at that time but does not establish current health. The failed run log shows a DNS resolution error, so first compare DNS from an independent resolver and inspect the relevant Actions runner log.”
+
+## Maintenance & Continuous Learning
+
+After using this skill to change the repository or incident procedure, review the skill against the resulting evidence sources and behavior. Update it when incident data, workflow evidence, communication procedures, tools, or validation assumptions change; preserve reusable diagnostic knowledge and correct guidance that proved wrong. Keep examples current and generalize them instead of recording one-off incident details. Validate frontmatter, references, and the repository knowledge gate, then report synchronization status.

@@ -38,3 +38,7 @@ YAML parses; each site has a unique name/slug and appropriate URL or TCP host/po
 ## Example
 
 For a documented health endpoint, add a uniquely named site with its HTTPS URL and an `expectedStatusCodes` list only if defaults are insufficient. For a private endpoint, use `url: $PRIVATE_API_URL`, add `PRIVATE_API_URL` to explicit `secrets`, and never print its value.
+
+## Maintenance & Continuous Learning
+
+After using this skill to change the repository, review it against the resulting configuration and behavior. Update it when supported options, endpoint conventions, secret handling, tools, or validation steps change; add reusable findings and correct inaccurate guidance. Keep examples and procedures current, omit one-off incident details, and validate frontmatter, references, and the repository knowledge gate. Report the review and any update in the final synchronization status.

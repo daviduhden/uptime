@@ -37,3 +37,7 @@ Only names and locations are reported; each reference/allowlist relationship is 
 ## Example
 
 If a site uses `url: $PRIVATE_API_URL`, verify that the name exists in the explicit `secrets` allowlist and that the relevant generated workflow passes it. Report only the variable name and workflow path, never its value.
+
+## Maintenance & Continuous Learning
+
+After using this skill to change security configuration or procedures, review it against the installed workflows and resulting token/secret behavior. Update references when allowlists, token fallbacks, permissions, tools, or rotation steps change; incorporate reusable findings and correct inaccurate assumptions. Keep examples free of real secret values and remove run-specific detail. Validate references, frontmatter, and the repository knowledge gate, then report synchronization status.

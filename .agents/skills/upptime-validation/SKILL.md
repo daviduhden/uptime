@@ -24,6 +24,8 @@ Need the working tree/diff and available local tools. Return errors, warnings, c
 7. Do not perform live network probes, dispatch workflows, open/close Issues, or deploy as validation unless explicitly authorized.
 8. Report each check with evidence and limitations. A parse pass does not prove Upptime schema acceptance or endpoint availability.
 
+For committed PR comparisons, run `python3 scripts/check-agent-knowledge.py --base <base-ref> --head <head-ref>`. It validates the changed-file gate, substantive knowledge diff threshold, instruction frontmatter and required headings, skill-directory names, relative Markdown links, agent skill references, and changed YAML using Ruby/Psych. The GitHub Actions PR workflow runs it automatically. This is a structural gate; reviewers still determine whether the knowledge update is semantically relevant.
+
 ## Validation and completion
 
 All available static checks pass or findings are recorded; secret values remain inaccessible; result categories distinguish error/warning/pass/unverified; final diff is reviewed.
@@ -38,3 +40,7 @@ All available static checks pass or findings are recorded; secret values remain 
 ## Example
 
 For an endpoint change, parse `.upptimerc.yml`, confirm a unique site and valid check fields, inspect `$PRIVATE_API_URL` against the allowlist by name, run available lint/whitespace checks, then state “static checks passed; no live availability check performed.”
+
+## Maintenance & Continuous Learning
+
+After using this skill to change validation procedures or repository files, review it against the validators and enforcement workflow that now exist. Update commands, covered file types, references, examples, and the distinction between structural and semantic checks when they change. Add reusable validation findings, correct inaccurate procedures, and avoid task-specific output. Validate frontmatter, references, and the knowledge gate itself; report synchronization status.
