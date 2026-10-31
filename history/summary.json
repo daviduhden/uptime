@@ -5,11 +5,11 @@
     "icon": "https://icons.duckduckgo.com/ip3/uhden.dev.ico",
     "slug": "uhden-dev",
     "status": "down",
-    "uptime": "83.22%",
-    "uptimeDay": "48.31%",
-    "uptimeWeek": "75.06%",
-    "uptimeMonth": "84.98%",
-    "uptimeYear": "83.22%",
+    "uptime": "83.17%",
+    "uptimeDay": "45.22%",
+    "uptimeWeek": "74.62%",
+    "uptimeMonth": "84.88%",
+    "uptimeYear": "83.17%",
     "time": 710,
     "timeDay": 479,
     "timeWeek": 447,
@@ -38,7 +38,7 @@
       "2026-10-28": 263,
       "2026-10-29": 1431,
       "2026-10-30": 724,
-      "2026-10-31": 20
+      "2026-10-31": 64
     }
   },
   {
@@ -46,12 +46,12 @@
     "url": "https://handbook.uhden.dev",
     "icon": "https://icons.duckduckgo.com/ip3/handbook.uhden.dev.ico",
     "slug": "cypherpunk-handbook",
-    "status": "up",
-    "uptime": "97.59%",
-    "uptimeDay": "98.91%",
+    "status": "down",
+    "uptime": "97.60%",
+    "uptimeDay": "99.03%",
     "uptimeWeek": "99.69%",
     "uptimeMonth": "96.64%",
-    "uptimeYear": "97.59%",
+    "uptimeYear": "97.60%",
     "time": 646,
     "timeDay": 750,
     "timeWeek": 679,
@@ -63,7 +63,8 @@
       "2026-10-16": 48,
       "2026-10-15": 1391,
       "2026-10-28": 15,
-      "2026-10-30": 16
+      "2026-10-30": 16,
+      "2026-10-31": 0
     }
   }
 ]
