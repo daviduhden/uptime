@@ -6,7 +6,7 @@
     "slug": "uhden-dev",
     "status": "up",
     "uptime": "82.43%",
-    "uptimeDay": "76.50%",
+    "uptimeDay": "77.49%",
     "uptimeWeek": "66.39%",
     "uptimeMonth": "83.54%",
     "uptimeYear": "82.43%",
@@ -46,17 +46,17 @@
     "url": "https://handbook.uhden.dev",
     "icon": "https://icons.duckduckgo.com/ip3/handbook.uhden.dev.ico",
     "slug": "cypherpunk-handbook",
-    "status": "down",
-    "uptime": "97.63%",
-    "uptimeDay": "99.17%",
-    "uptimeWeek": "99.44%",
-    "uptimeMonth": "96.59%",
-    "uptimeYear": "97.63%",
-    "time": 655,
-    "timeDay": 825,
-    "timeWeek": 714,
-    "timeMonth": 675,
-    "timeYear": 655,
+    "status": "up",
+    "uptime": "97.61%",
+    "uptimeDay": "98.19%",
+    "uptimeWeek": "99.30%",
+    "uptimeMonth": "96.55%",
+    "uptimeYear": "97.61%",
+    "time": 653,
+    "timeDay": 726,
+    "timeWeek": 699,
+    "timeMonth": 671,
+    "timeYear": 653,
     "dailyMinutesDown": {
       "2026-09-27": 62,
       "2026-09-28": 57,
@@ -65,7 +65,7 @@
       "2026-10-28": 15,
       "2026-10-30": 16,
       "2026-10-31": 14,
-      "2026-11-01": 12
+      "2026-11-01": 26
     }
   }
 ]
