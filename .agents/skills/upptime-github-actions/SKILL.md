@@ -38,7 +38,7 @@ Failure is tied to a specific log/config fact or marked as a hypothesis; generat
 
 For a failed `Graphs CI` run, inspect its “Generate graphs” log and token/checkout errors. The workflow is generated, so prefer an official config correction; only propose direct workflow customization with a reproducible maintenance plan.
 
-For the `Agent Knowledge Gate`, inspect `scripts/validate-agent-knowledge.py` and the PR base/head comparison. It uses Python's standard library and Ruby/Psych for YAML parsing, requires a substantive changed instruction/skill file, checks maintenance headings and relative links, and cannot assess semantic relevance.
+For the `Agent Knowledge Gate`, inspect `scripts/validate-agent-knowledge.pl` and the PR base/head comparison. The shared validator uses core Perl modules; a separate UPT001 step uses Ruby/Psych for changed YAML. It requires a substantive changed instruction/skill file, checks maintenance headings and relative links, and cannot assess semantic relevance.
 
 ## Maintenance & Continuous Learning
 
