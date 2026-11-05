@@ -11,17 +11,16 @@ repository's agent instructions, related skills and tests.
 
 ## Run the validator
 
-Requirements: Python 3.11 or newer and Git. The validator uses only Python's
-standard library. Run it from inside the repository worktree:
+Requirements: Perl 5.14 or newer (JSON::PP core) and Git. The validator uses only core Perl modules. Run it from inside the repository worktree:
 
 ```sh
-python3 scripts/validate-agent-knowledge.py --help
-python3 scripts/validate-agent-knowledge.py --scope worktree
-python3 scripts/validate-agent-knowledge.py \
+perl scripts/validate-agent-knowledge.pl --help
+perl scripts/validate-agent-knowledge.pl --scope worktree
+perl scripts/validate-agent-knowledge.pl \
   --scope range --base BASE_REF --head HEAD_REF
-python3 scripts/validate-agent-knowledge.py \
+perl scripts/validate-agent-knowledge.pl \
   --scope range --base BASE_REF --head HEAD_REF --format json
-python3 -m unittest discover -s tests/agent_knowledge_validator -v
+prove tests/agent_knowledge_validator/test_validator.pl
 ```
 
 `worktree` includes staged and unstaged tracked changes, untracked non-ignored
@@ -103,10 +102,10 @@ traversals, and incompatible contract versions fail with exit code `2`.
 
 ## Extending and replicating the contract
 
-Keep `scripts/validate-agent-knowledge.py` byte-identical across adopting
+Keep `scripts/validate-agent-knowledge.pl` byte-identical across adopting
 repositories. The standard black-box suite at
-`tests/agent_knowledge_validator/test_validator.py` must also remain
-equivalent and pass with `unittest`. Repository-specific config is the only
+`tests/agent_knowledge_validator/test_validator.pl` must also remain
+equivalent and pass with `prove`. Repository-specific config is the only
 normal way to add deterministic constraints. If a distinct extension needs
 code, give it a stable identifier outside `AK001`–`AK006`, document why it
 cannot be expressed by the shared configuration, and add equivalent tests.
@@ -119,7 +118,7 @@ the gate.
 ## Upptime YAML extension
 
 Upptime retains `UPT001` as a separate project validation because complete YAML
-parsing is not available in Python's standard library. The PR workflow passes
+parsing is not available in core Perl modules. The PR workflow passes
 changed `.yml` and `.yaml` paths to `scripts/validate-upptime-yaml.rb`, which
 uses Ruby's standard Psych library. It does not alter the shared validator or
 its `AK001`-`AK006` behavior. Run it locally with NUL-delimited paths from a
