@@ -1,6 +1,6 @@
 # Upptime repository guidance
 
-This repository is an Upptime **instance**, not the Upptime engine. It monitors `uhden.dev` and `handbook.uhden.dev`; its installed workflows identify the template as Upptime v1.44.0 and the monitor action as v1.44.1. Treat `.upptimerc.yml` as the primary configuration source.
+This repository is an Upptime **instance**, not the Upptime engine. It monitors `uhden.dev` and `handbook.uhden.dev`; its installed workflows identify the template and monitor action as Upptime v1.46.5. Treat `.upptimerc.yml` as the primary configuration source.
 
 ## Source and generated files
 
@@ -17,6 +17,14 @@ This repository is an Upptime **instance**, not the Upptime engine. It monitors 
 - Never print secret values, expose private URLs, or access secret values for validation. Do not create real incidents or alter production state as a test.
 - Do not close, edit, or publish real incident Issues automatically. Do not publish, change sensitive remote settings, alter production monitoring cadence/permissions, or perform destructive operations without explicit authorization.
 - Explain operational risk for changes that affect endpoints, alerting, permissions, schedules, or publication. Verify changes with safe tools available in the repository and report limitations.
+- `zizmor` 1.32.0 must report zero findings in regular, pedantic and auditor
+  modes. Generated workflows declare `permissions: {}` at workflow level and
+  grant only the job-level writes each command needs. The `secrets-outside-env`
+  and `artipacked` findings are specific inline exceptions: Upptime forwards an
+  allowlisted set of repository secrets and must persist the checkout token to
+  push generated data. Moving either to environment secrets or removing
+  credential persistence requires a coordinated remote-settings and template
+  change; do not remove the inline justification without both.
 
 ## Skill routing
 

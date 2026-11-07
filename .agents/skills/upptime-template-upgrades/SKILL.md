@@ -15,7 +15,7 @@ Need intended target/revision if known and whether update should be planned or a
 
 ## Procedure
 
-1. Identify installed revision from workflow headers/action pins, repository metadata, and `.templaterc.json`; distinguish template version from monitor action version. Here headers currently show Upptime v1.44.0, monitor action v1.44.1, and updates action v1.0.1.
+1. Identify installed revision from workflow headers/action pins, repository metadata, and `.templaterc.json`; distinguish template version from monitor action version. Here headers currently show Upptime v1.46.5, monitor action v1.46.5, and updates action v1.0.1. The workflows keep the generated structure but pin newer action releases than the upstream template: checkout v7.0.1, create-github-app-token v3.3.0, and setup-node v7.1.0. A template resync must not downgrade those pins.
 2. Inspect template scope (`.templaterc.json` currently `.github/**/*`), source configuration, local customizations, and worktree state. This repository has a custom PR gate at `.github/workflows/agent-knowledge.yml`; verify actual synchronization behavior for custom paths rather than assuming how the glob treats files absent upstream. Preserve uncommitted work.
 3. Consult official release/template notes or compare against the official upstream for the requested target. Use primary official sources; do not assume all upstream files exist locally.
 4. Classify changes: generated workflow/template files, maintained source config, custom assets/docs, runtime-generated history/API/graphs/README status. Identify overwritten files and semantic changes to options, token flow, permissions, schedules, runtime, or Pages.
