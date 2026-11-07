@@ -1,13 +1,13 @@
 name: Agent Knowledge Validation
 
 on:
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: agent-knowledge-validation-${{ github.event.pull_request.number || github.run_id }}
+  group: agent-knowledge-validation-${{ github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -22,15 +22,9 @@ jobs:
           persist-credentials: false
       - name: Run canonical contract tests
         run: prove tests/agent_knowledge_validator/test_validator.pl
-      - name: Run canonical range validation
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: perl scripts/validate-agent-knowledge.pl --scope range --base "$BASE_SHA" --head "$HEAD_SHA"
-      - name: Validate changed YAML with Psych (UPT001)
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      - name: Run canonical worktree validation
+        run: perl scripts/validate-agent-knowledge.pl --scope worktree
+      - name: Validate YAML with Psych (UPT001)
         run: |
-          merge_base=$(git merge-base "$BASE_SHA" "$HEAD_SHA")
-          git diff --name-only -z --no-renames "$merge_base" "$HEAD_SHA" -- '*.yml' '*.yaml' | ruby scripts/validate-upptime-yaml.rb
+          find . -type f \( -name '*.yml' -o -name '*.yaml' \) \
+            -not -path './.git/*' -print0 | ruby scripts/validate-upptime-yaml.rb

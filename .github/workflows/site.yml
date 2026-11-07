@@ -17,13 +17,6 @@
 name: Static Site CI
 permissions: {}
 on:
-  push:
-    paths:
-      - "assets/**"
-  schedule:
-    - cron: "0 1 * * *"
-  repository_dispatch:
-    types: [static_site]
   workflow_dispatch:
 concurrency:
   group: ${{ github.repository }}-${{ github.head_ref || github.ref_name }}-upptime
@@ -34,7 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # Upptime commits generated data and deploys Pages
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     env:  # zizmor: ignore[secrets-outside-env] Upptime forwards allowlisted repository secrets; environment scoping requires remote secret migration
       GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
     steps:

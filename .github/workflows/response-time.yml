@@ -17,10 +17,6 @@
 name: Response Time CI
 permissions: {}
 on:
-  schedule:
-    - cron: "0 23 * * *"
-  repository_dispatch:
-    types: [response_time]
   workflow_dispatch:
 concurrency:
   group: ${{ github.repository }}-${{ github.head_ref || github.ref_name }}-upptime

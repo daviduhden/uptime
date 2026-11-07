@@ -25,7 +25,7 @@ prove tests/agent_knowledge_validator/test_validator.pl
 
 `worktree` includes staged and unstaged tracked changes, untracked non-ignored
 files, renames, and deletions. `range` compares the merge base of `BASE_REF`
-and `HEAD_REF` with `HEAD_REF`. For a pull request, fetch sufficient history
+and `HEAD_REF` with `HEAD_REF`. For a branch review, fetch sufficient history
 and pass the PR base and head commit SHAs; the validator resolves their common
 ancestor itself.
 
@@ -118,8 +118,8 @@ the gate.
 ## Upptime YAML extension
 
 Upptime retains `UPT001` as a separate project validation because complete YAML
-parsing is not available in core Perl modules. The PR workflow passes
-changed `.yml` and `.yaml` paths to `scripts/validate-upptime-yaml.rb`, which
+parsing is not available in core Perl modules. The manual workflow passes
+all checked-out `.yml` and `.yaml` paths to `scripts/validate-upptime-yaml.rb`, which
 uses Ruby's standard Psych library. It does not alter the shared validator or
 its `AK001`-`AK006` behavior. Run it locally with NUL-delimited paths from a
 Git diff and review its `[PASS]`/`[FAIL] UPT001` output.

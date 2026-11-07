@@ -24,7 +24,7 @@ Need the working tree/diff and available local tools. Return errors, warnings, c
 7. Do not perform live network probes, dispatch workflows, open/close Issues, or deploy as validation unless explicitly authorized.
 8. Report each check with evidence and limitations. A parse pass does not prove Upptime schema acceptance or endpoint availability.
 
-For committed PR comparisons, run `perl scripts/validate-agent-knowledge.pl --scope range --base <base-ref> --head <head-ref>`. It validates the changed-file gate, substantive knowledge diff threshold, instruction frontmatter and required headings, skill-directory names, relative Markdown links, agent skill references, while a separate UPT001 step validates changed YAML using Ruby/Psych. The GitHub Actions PR workflow runs it automatically. This is a structural gate; reviewers still determine whether the knowledge update is semantically relevant.
+For committed branch comparisons, run `perl scripts/validate-agent-knowledge.pl --scope range --base <base-ref> --head <head-ref>`; for the checked-out worktree use `--scope worktree`. It validates the changed-file gate, substantive knowledge diff threshold, instruction frontmatter and required headings, skill-directory names, relative Markdown links, agent skill references, while a separate UPT001 step validates YAML using Ruby/Psych. The manual `Agent Knowledge Validation` workflow runs on `workflow_dispatch`. This is a structural gate; reviewers still determine whether the knowledge update is semantically relevant.
 
 ## Validation and completion
 
